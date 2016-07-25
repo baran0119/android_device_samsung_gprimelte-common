@@ -253,6 +253,9 @@ key 225   BRIGHTNESS_UP
 key 226   HEADSETHOOK
 
 # samsung 
+key 231   CALL #(CHN FOLDER MODEL)
+
+# samsung 
 key 252   USER
 
 # samsung
@@ -311,7 +314,7 @@ key 318   BUTTON_THUMBR
 
 
 # key 352 "KEY_OK"
-# key 353   DPAD_CENTER
+key 353   DPAD_CENTER
 # key 354 "KEY_GOTO"
 # key 355 "KEY_CLEAR"
 # key 356 "KEY_POWER2"
@@ -376,6 +379,7 @@ key 403   CHANNEL_DOWN
 # key 415 "KEY_TWEN"
 
 key 429   CONTACTS
+key 430   MESSAGE
 
 # key 448 "KEY_DEL_EOL"
 # key 449 "KEY_DEL_EOS"
@@ -432,15 +436,21 @@ key 523	POUND
 # samsung camera
 key 528   FOCUS
 
+#key 531   TOUCHPAD_ON
+#key 532   TOUCHPAD_OFF
+
 # samsung DMB
 key 539   DMB_ANT_OPEN
 key 540   DMB_ANT_CLOSE
 
-#key 544 NETWORK_SEL (CHN FOLDER MODEL)
-#key 545 3G          (CHN FOLDER MODEL)
+key 548 NETWORK_SEL #(CHN FOLDER MODEL)
+key 549 3G          #(CHN FOLDER MODEL)
+key 550 WATCH       #(CHN FOLDER MODEL)
+key 551 ENDCALL     #(CHN FOLDER MODEL)
 
 #key 576 don't use (specific value used by camera project) - refer to InputReader.cpp
 
+key 580   APPSELECT
 key 582   VOICE_ASSIST
 
 # Keys defined by HID usages

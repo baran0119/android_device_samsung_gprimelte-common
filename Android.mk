@@ -57,6 +57,40 @@ $(FIRMWARE_MODEM_SYMLINKS): $(LOCAL_INSTALLED_MODULE)
 
 ALL_DEFAULT_INSTALLED_MODULES += $(FIRMWARE_MODEM_SYMLINKS)
 
+# Create links for audcal data files
+#$(shell mkdir -p $(TARGET_OUT)/vendor/firmware/keymaster; \
+#    ln -sf /firmware/image/keymaste.b00 \
+#    $(TARGET_OUT)/vendor/firmware/keymaster/keymaster.b00; \
+#    ln -sf /firmware/image/keymaste.b01 \
+#    $(TARGET_OUT)/vendor/firmware/keymaster/keymaster.b01; \
+#    ln -sf /firmware/image/keymaste.b02 \
+#    $(TARGET_OUT)/vendor/firmware/keymaster/keymaster.b02; \
+#    ln -sf /firmware/image/keymaste.b03 \
+#    $(TARGET_OUT)/vendor/firmware/keymaster/keymaster.b03; \
+#    ln -sf /firmware/image/keymaste.mdt \
+#    $(TARGET_OUT)/vendor/firmware/keymaster/keymaster.mdt)
+
+#Create link for nfc configs
+$(shell mkdir -p $(TARGET_OUT)/etc/; \
+    ln -sf /etc/libnfc-sec-hal.conf \
+    $(TARGET_OUT)/etc/libnfc-brcm-hal.conf; \
+    ln -sf /etc/libnfc-sec.conf \
+    $(TARGET_OUT)/etc/libnfc-brcm.conf)
+
+#Create link for wifi config
+$(shell mkdir -p $(TARGET_OUT)/etc/wifi; \
+    ln -sf /etc/firmware/wlan/prima/WCNSS_qcom_cfg.ini \
+    $(TARGET_OUT)/etc/wifi/WCNSS_qcom_cfg.ini)
+
+#Create links for camera and wlan modules
+#$(shell mkdir -p $(TARGET_OUT)/lib/hw; \
+#    ln -sf /system/lib/hw/camera.vendor.msm8916.so \
+#    $(TARGET_OUT)/lib/hw/camera.msm8916.so)
+    
+$(shell mkdir -p $(TARGET_OUT)/lib/modules/pronto; \
+    ln -sf /system/lib/modules/pronto/pronto_wlan.ko \
+    $(TARGET_OUT)/lib/modules/wlan.ko)
+    
 include $(CLEAR_VARS)
 
 endif

@@ -8,6 +8,8 @@ $(call inherit-product, device/samsung/qcom-common/qcom-common.mk)
 # Also get non-open-source specific aspects if available
 $(call inherit-product-if-exists, vendor/samsung/gprimeltecan/gprimeltecan-common-vendor.mk)
 
+include $(LOCAL_PATH)/keylayout/Layouts.mk
+
 # Common overlay
 DEVICE_PACKAGE_OVERLAYS += device/samsung/gprimeltecan/overlay
 
@@ -31,6 +33,16 @@ PRODUCT_PACKAGES += \
     antradio_app \
     com.dsi.ant.antradio_library \
     libantradio
+
+#NFC
+PRODUCT_PACKAGES += \
+    libnfc-nci \
+    libnfc_nci_jni \
+    nfc_nci.msm8916 \
+    NfcNci \
+    Tag \
+    com.android.nfc_extras \
+    com.android.nfc.helper
 
 # Audio
 PRODUCT_PACKAGES += \
@@ -107,6 +119,9 @@ PRODUCT_PACKAGES += \
     init.qcom.sh \
     init.target.rc \
     ueventd.qcom.rc \
+    init.qcom.zram.sh \
+    init.rilchip.rc \
+    init.rilcommon.rc \
     twrp.fstab
 
 # Keylayout
@@ -132,9 +147,22 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     librs_jni
 
+# USB
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+persist.sys.usb.config=mtp
+
 # GPS
 PRODUCT_PACKAGES += \
-    gps.msm8916
+    gps.msm8916 \
+    gps.default \
+    libloc_core \
+    libgps.utils \
+    libloc_eng \
+    libloc_api_v02
+
+#Sensors
+PRODUCT_PACKAGES += \
+    sensors.default
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gps/flp.conf:system/etc/flp.conf \
@@ -184,9 +212,6 @@ PRODUCT_PACKAGES += \
     libstagefrighthw \
     qcmediaplayer
 
-# Overlay
-DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
-
 # Permissions
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.audio.low_latency.xml:system/etc/permissions/android.hardware.audio.low_latency.xml \
@@ -233,7 +258,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.gps.qc_nlp_in_use=1 \
     persist.loc.nlp_name=com.qualcomm.location \
     ro.gps.agps_provider=1 \
-    ro.pip.gated=0
+    ro.pip.gated=0 \
+    ro.product.model=SM-G530W \
+    ro.product.device=gprimeltecan
 
 # Ril
 PRODUCT_PACKAGES += \
@@ -262,7 +289,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wifi/WCNSS_cfg.dat:system/etc/firmware/wlan/prima/WCNSS_cfg.dat \
     $(LOCAL_PATH)/wifi/WCNSS_qcom_cfg.ini:system/etc/firmware/wlan/prima/WCNSS_qcom_cfg.ini \
     $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin
-
+    
 PRODUCT_PACKAGES += \
     hostapd \
     hostapd_cli \

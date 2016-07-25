@@ -16,11 +16,11 @@ BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
 # Platform
 TARGET_ARCH := arm
 #TARGET_NO_BOOTLOADER := true
-#TARGET_BOARD_PLATFORM := msm8916
+TARGET_BOARD_PLATFORM := msm8916
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_ARCH_VARIANT := armv7-a-neon
-#TARGET_BOARD_PLATFORM_GPU       := qcom-adreno306
+TARGET_BOARD_PLATFORM_GPU       := qcom-adreno306
 #ARCH_ARM_HAVE_TLS_REGISTER := true
 
 # Architecture
@@ -42,16 +42,27 @@ BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_QCOM := true
 BLUETOOTH_HCI_USE_MCT := true
 
+# Misc.
+#TARGET_SYSTEM_PROP := $(LOCAL_PATH)/system.prop
+
+# Custom RIL class
+BOARD_RIL_CLASS                     := $(LOCAL_PATH)/ril
+BOARD_PROVIDES_LIBRIL := true
+PROTOBUF_SUPPORTED := true
+
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := MSM8916
 
 # Camera
 TARGET_USE_VENDOR_CAMERA_EXT := true
+#TARGET_PROVIDES_CAMERA_HAL := true
 USE_DEVICE_SPECIFIC_CAMERA := true
 
 # Charger
 # BOARD_CHARGER_ENABLE_SUSPEND := true
 # BOARD_CHARGER_SHOW_PERCENTAGE := true
+
+#sec_s3fwrn5 <- NFC HAL
 
 # CMHW
 BOARD_HARDWARE_CLASS += $(LOCAL_PATH)/cmhw
@@ -83,7 +94,7 @@ EXTENDED_FONT_FOOTPRINT := true
 
 # GPS
 #TARGET_GPS_HAL_PATH := $(LOCAL_PATH)/gps
-TARGET_NO_RPC := true
+#TARGET_NO_RPC := true
 
 # Init
 TARGET_INIT_VENDOR_LIB := libinit_msm
@@ -108,7 +119,7 @@ TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/kernel
 #TARGET_KERNEL_SOURCE := kernel/samsung/fortuna
 
 # Lights
-TARGET_PROVIDES_LIBLIGHT := true
+TARGET_PROVIDES_LIBLIGHT := false
 
 # malloc implementation
 MALLOC_IMPL := dlmalloc
@@ -127,9 +138,6 @@ BOARD_PERSISTIMAGE_FILE_SYSTEM_TYPE := ext4
 # (5731495936 - 16384)
 BOARD_USERDATAIMAGE_PARTITION_SIZE  := 4942966784
 BOARD_FLASH_BLOCK_SIZE              := 131072
-# Platform
-TARGET_BOARD_PLATFORM := msm8916
-TARGET_BOARD_PLATFORM_GPU := qcom-adreno306
 
 # Power
 TARGET_POWERHAL_VARIANT := qcom
@@ -151,20 +159,32 @@ TARGET_RIL_VARIANT := caf
 
 # SELinux
 include device/qcom/sepolicy/sepolicy.mk
+include vendor/cm/sepolicy/sepolicy.mk
+include vendor/cm/sepolicy/qcom/sepolicy.mk
 
 BOARD_SEPOLICY_DIRS += \
     device/samsung/gprimeltecan/sepolicy
 
 BOARD_SEPOLICY_UNION += \
-    bluetooth_loader.te \
-    file.te \
-    healthd.te \
-    qseecomd.te \
-    surfaceflinger.te \
-    system_server.te \
-    wcnss_service.te \
-    file_contexts \
-    property_contexts
+	ueventd.te \
+	file.te \
+	shell.te \
+	surfaceflinger.te \
+	bluetooth_loader.te \
+	wcnss_service.te \
+	healthd.te \
+	rild.te \
+	qseecomd.te \
+	system_server.te \
+	time_daemon.te \
+	sysinit.te \
+	mm-qcamerad.te \
+	file_contexts \
+	init_shell.te \
+	keystore.te \
+	perfd.te \
+	mediaserver.te \
+	property_contexts
 
 # Time services
 BOARD_USES_QC_TIME_SERVICES := true
@@ -226,6 +246,8 @@ TARGET_USES_WCNSS_CTRL := true
 WIFI_DRIVER_FW_PATH_AP := "ap"
 WIFI_DRIVER_FW_PATH_STA := "sta"
 WPA_SUPPLICANT_VERSION := VER_0_8_X
+WIFI_DRIVER_MODULE_PATH  := "/system/lib/modules/wlan.ko"
+WIFI_DRIVER_MODULE_NAME := "wlan"
 
 # inherit from the proprietary version
 -include vendor/samsung/gprimeltecan/BoardConfigVendor.mk
