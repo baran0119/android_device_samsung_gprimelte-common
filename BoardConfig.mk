@@ -64,7 +64,7 @@ BOARD_CHARGER_SHOW_PERCENTAGE := true
 #sec_s3fwrn5 <- NFC HAL
 
 # CMHW
-BOARD_HARDWARE_CLASS += $(LOCAL_PATH)/cmhw
+#BOARD_HARDWARE_CLASS += $(LOCAL_PATH)/cmhw
 
 # Crypto
 TARGET_HW_DISK_ENCRYPTION := true
@@ -160,8 +160,6 @@ BOARD_PROVIDES_LIBRIL := false
 
 # SELinux
 include device/qcom/sepolicy/sepolicy.mk
-include vendor/cm/sepolicy/sepolicy.mk
-include vendor/cm/sepolicy/qcom/sepolicy.mk
 
 BOARD_SEPOLICY_DIRS += \
     device/samsung/gprimeltecan/sepolicy
