@@ -5,13 +5,14 @@
 #
 
 on boot
+
 service ril-daemon /system/bin/rild
     class main
     socket rild stream 660 root radio
     socket rild-debug stream 660 radio system
     socket rild-cas stream 660 casdrm mmb
     user root
-    group radio cache inet misc audio log qcom_diag system drmrpc vpn system
+    group radio cache inet misc audio sdcard_r sdcard_rw log qcom_diag system drmrpc vpn system shell 
 
 service diag_uart_log /system/bin/diag_uart_log
     class main

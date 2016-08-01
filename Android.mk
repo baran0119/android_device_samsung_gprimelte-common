@@ -57,7 +57,7 @@ $(FIRMWARE_MODEM_SYMLINKS): $(LOCAL_INSTALLED_MODULE)
 
 ALL_DEFAULT_INSTALLED_MODULES += $(FIRMWARE_MODEM_SYMLINKS)
 
-# Create links for audcal data files
+# Create links for keymaster firmware files
 #$(shell mkdir -p $(TARGET_OUT)/vendor/firmware/keymaster; \
 #    ln -sf /firmware/image/keymaste.b00 \
 #    $(TARGET_OUT)/vendor/firmware/keymaster/keymaster.b00; \

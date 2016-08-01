@@ -36,13 +36,14 @@ PRODUCT_PACKAGES += \
 
 #NFC
 PRODUCT_PACKAGES += \
-    libnfc-nci \
-    libnfc_nci_jni \
-    nfc_nci.msm8916 \
-    NfcNci \
     Tag \
     com.android.nfc_extras \
     com.android.nfc.helper
+
+#    NfcNci \
+#    libnfc-nci \
+#    libnfc_nci_jni \
+#    nfc_nci.msm8916 \
 
 # Audio
 PRODUCT_PACKAGES += \
@@ -56,6 +57,13 @@ PRODUCT_PACKAGES += \
     libqcomvisualizer \
     libqcomvoiceprocessing \
     tinymix
+    
+#VoLTE calling support
+PRODUCT_PACKAGES += \
+    com.android.ims \
+    com.android.ims.internal \
+    ims-common \
+    voip-common
 
 # Audio configuration
 PRODUCT_COPY_FILES += \
@@ -73,14 +81,23 @@ PRODUCT_COPY_FILES += \
 # Boot jars
 PRODUCT_BOOT_JARS += \
     qcom.fmradio \
+    tcmiface
+    
+#    qcmediaplayer   
 #    oem-services \
-    tcmiface \
-    qcmediaplayer
 
 # Connectivity Engine support
 PRODUCT_PACKAGES += \
     libcnefeatureconfig
 
+#Camera
+PRODUCT_PACKAGES += \
+	camera.msm8916
+	
+#SAMSUNG RIL
+#PRODUCT_PACKAGES += \
+#	libsecril-client
+	
 # Display
 PRODUCT_PACKAGES += \
     copybit.msm8916 \
@@ -126,10 +143,13 @@ PRODUCT_PACKAGES += \
 
 # Keylayout
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/keylayout/ft5x06_ts.kl:system/usr/keylayout/ft5x06_ts.kl \
-    $(LOCAL_PATH)/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
-    $(LOCAL_PATH)/keylayout/synaptics_dsx.kl:system/usr/keylayout/synaptics_dsx.kl \
-    $(LOCAL_PATH)/keylayout/synaptics_rmi4_i2c.kl:system/usr/keylayout/synaptics_rmi4_i2c.kl
+	$(LOCAL_PATH)/keylayout/Synaptics_RMI4_TouchPad_Sensor.idc:system/usr/idc/Synaptics_RMI4_TouchPad_Sensor.idc \
+	$(LOCAL_PATH)/keylayout/Synaptics_HID_TouchPad.idc:system/usr/idc/Synaptics_HID_TouchPad.idc \
+	$(LOCAL_PATH)/keylayout/ft5x06_ts.kl:system/usr/keylayout/ft5x06_ts.kl \
+	$(LOCAL_PATH)/keylayout/synaptics_dsx.kl:system/usr/keylayout/synaptics_dsx.kl \
+	$(LOCAL_PATH)/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
+	$(LOCAL_PATH)/keylayout/Generic.kl:system/usr/keylayout/Generic.kl \
+	$(LOCAL_PATH)/keylayout/synaptics_rmi4_i2c.kl:system/usr/keylayout/synaptics_rmi4_i2c.kl
 
 # Keystore
 PRODUCT_PACKAGES += \
@@ -147,23 +167,37 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     librs_jni
 
-# USB
+# Default Property Overrides
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-persist.sys.usb.config=mtp
+	persist.sys.usb.config=mtp \
+	telephony.lteOnCdmaDevice=0 \
+	persist.eons.enabled=true \
+	persist.radio.apm_sim_not_pwdn=1 \
+	persist.radio.rilversion=8 \
+	rild.libpath=/system/lib/libsec-ril.so \
+	persist.cne.feature=0 \
+	persist.radio.lte_vrte_ltd=1 \
+	persist.radio.add_power_save=1 \
+	camera2.portability.force_api=1 \
+    ro.secure=0 \
+    ro.adb.secure=0 \
+    ro.debuggable=1 \
+    persist.service.adb.enable=1
+#    ro.telephony.ril_class=SamsungRIL
 
 # GPS
-PRODUCT_PACKAGES += \
-    gps.msm8916 \
-    gps.default \
-    libloc_core \
-    libgps.utils \
-    libloc_eng \
-    libloc_api_v02
+#PRODUCT_PACKAGES += \
+#    gps.default \
+#    libloc_core \
+#    libgps.utils \
+#    libloc_eng \
+#    libloc_api_v02
 
 #Sensors
 PRODUCT_PACKAGES += \
     sensors.default
 
+#GPS Configurations
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gps/flp.conf:system/etc/flp.conf \
     $(LOCAL_PATH)/gps/gps.conf:system/etc/gps.conf \
@@ -173,14 +207,15 @@ PRODUCT_COPY_FILES += \
 # macloader
 PRODUCT_PACKAGES += macloader
 
-# Media
+# Media configurations
 PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml \
-#    frameworks/av/media/libstagefright/data/media_codecs_ffmpeg.xml:system/etc/media_codecs_ffmpeg.xml \
     $(LOCAL_PATH)/media/media_codecs.xml:system/etc/media_codecs.xml \
     $(LOCAL_PATH)/media/media_profiles.xml:system/etc/media_profiles.xml
+
+#    frameworks/av/media/libstagefright/data/media_codecs_ffmpeg.xml:system/etc/media_codecs_ffmpeg.xml \
 
 # MSM IRQ Balancer configuration file
 PRODUCT_COPY_FILES += \
@@ -273,6 +308,14 @@ PRODUCT_AAPT_PREF_CONFIG := xhdpi
 # security config
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sec_config:system/etc/sec_config
+    
+# ril switch script files
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/scripts/rilswitch.sh:system/bin/rilswitch.sh \
+	$(LOCAL_PATH)/scripts/rilswitch/caf/lib/libreference-ril.so:system/rilswitch/caf/lib/libreference-ril.so \
+	$(LOCAL_PATH)/scripts/rilswitch/caf/bin/rild:system/rilswitch/caf/bin/rild \
+	$(LOCAL_PATH)/scripts/rilswitch/caf/lib/libril.so:system/rilswitch/caf/lib/libril.so \
+	$(LOCAL_PATH)/scripts/rilswitch/caf/lib/librilutils.so:system/rilswitch/caf/lib/librilutils.so
 
 # Terminal
 PRODUCT_PACKAGES += Terminal
@@ -281,7 +324,7 @@ PRODUCT_PACKAGES += Terminal
 PRODUCT_PACKAGES += \
     com.android.future.usb.accessory
 
-# Wifi
+# Wifi configuration files
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
     $(LOCAL_PATH)/wifi/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \

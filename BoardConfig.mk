@@ -46,8 +46,7 @@ BLUETOOTH_HCI_USE_MCT := true
 #TARGET_SYSTEM_PROP := $(LOCAL_PATH)/system.prop
 
 # Custom RIL class
-BOARD_RIL_CLASS                     := $(LOCAL_PATH)/ril
-BOARD_PROVIDES_LIBRIL := true
+BOARD_RIL_CLASS    := ../../../device/samsung/gprimeltecan/ril
 PROTOBUF_SUPPORTED := true
 
 # Bootloader
@@ -55,12 +54,12 @@ TARGET_BOOTLOADER_BOARD_NAME := MSM8916
 
 # Camera
 TARGET_USE_VENDOR_CAMERA_EXT := true
-#TARGET_PROVIDES_CAMERA_HAL := true
+TARGET_PROVIDES_CAMERA_HAL := true
 USE_DEVICE_SPECIFIC_CAMERA := true
 
 # Charger
 # BOARD_CHARGER_ENABLE_SUSPEND := true
-# BOARD_CHARGER_SHOW_PERCENTAGE := true
+BOARD_CHARGER_SHOW_PERCENTAGE := true
 
 #sec_s3fwrn5 <- NFC HAL
 
@@ -78,7 +77,7 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
 MAX_EGL_CACHE_KEY_SIZE := 12*1024
 MAX_EGL_CACHE_SIZE := 2048*1024
 NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
-OVERRIDE_RS_DRIVER := libRSDriver_adreno.so
+OVERRIDE_RS_DRIVER := libRSDriver.so
 TARGET_CONTINUOUS_SPLASH_ENABLED := true
 TARGET_HAVE_NEW_GRALLOC := true
 
@@ -106,7 +105,7 @@ TARGET_PROVIDES_INIT_RC := true
 # Kernel
 BOARD_CUSTOM_BOOTIMG_MK := $(LOCAL_PATH)/mkbootimg.mk
 BOARD_KERNEL_BASE := 0x80000000
-BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=23 msm_rtb.filter=0x3F ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=23 msm_rtb.filter=0x3F ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_KERNEL_TAGS_OFFSET := 0x01E00000
@@ -152,10 +151,12 @@ BOARD_SUPPRESS_EMMC_WIPE := true
 TARGET_RECOVERY_PIXEL_FORMAT := ABGR_8888
 TARGET_RECOVERY_QCOM_RTC_FIX := true
 TARGET_USERIMAGES_USE_EXT4 := true
-TARGET_USERIMAGES_USE_F2FS := true
+TARGET_USERIMAGES_USE_F2FS := false
 
 # RIL
 TARGET_RIL_VARIANT := caf
+#override to enable audio.
+BOARD_PROVIDES_LIBRIL := false
 
 # SELinux
 include device/qcom/sepolicy/sepolicy.mk
@@ -181,6 +182,11 @@ BOARD_SEPOLICY_UNION += \
 	mm-qcamerad.te \
 	file_contexts \
 	init_shell.te \
+	init.te \
+	lkmd.te \
+	qmuxd.te \
+	rfs_access.te \
+	rmt_storage.te \
 	keystore.te \
 	perfd.te \
 	mediaserver.te \
