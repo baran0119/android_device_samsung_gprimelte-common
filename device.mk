@@ -13,8 +13,8 @@ include $(LOCAL_PATH)/keylayout/Layouts.mk
 # Common overlay
 DEVICE_PACKAGE_OVERLAYS += device/samsung/gprimeltecan/overlay
 
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/dt.img:dt.img
+#PRODUCT_COPY_FILES += \
+#    $(LOCAL_PATH)/dt.img:dt.img
 
 #Android EGL implementation
 PRODUCT_PACKAGES += libGLES_android
@@ -356,6 +356,14 @@ PRODUCT_PACKAGES += \
     libwpa_client \
     wcnss_service \
     wpa_supplicant
+
+#WLAN
+PRODUCT_PACKAGES += \
+	libimg_utils \
+	libcamera_client \
+	libcamera_metadata \
+	libcamera_parameters \
+	libcameraservice
 
 # Inhert dalvik heap values from aosp
 $(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
