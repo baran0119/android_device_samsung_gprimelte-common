@@ -1,7 +1,6 @@
 FORCE_32_BIT := true
 
 -include vendor/samsung/gprimeltecan/BoardConfigVendor.mk
-#-include vendor/qcom/msm8916/BoardConfig.mk
 
 LOCAL_PATH := device/samsung/gprimeltecan
 
@@ -15,7 +14,6 @@ BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
 
 # Platform
 TARGET_ARCH := arm
-#TARGET_NO_BOOTLOADER := true
 TARGET_BOARD_PLATFORM := msm8916
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
@@ -42,9 +40,6 @@ BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_QCOM := true
 BLUETOOTH_HCI_USE_MCT := true
 
-# Misc.
-#TARGET_SYSTEM_PROP := $(LOCAL_PATH)/system.prop
-
 # Custom RIL class
 BOARD_RIL_CLASS    := ../../../device/samsung/gprimeltecan/ril
 PROTOBUF_SUPPORTED := true
@@ -64,7 +59,7 @@ BOARD_CHARGER_SHOW_PERCENTAGE := true
 #sec_s3fwrn5 <- NFC HAL
 
 # CMHW
-#BOARD_HARDWARE_CLASS += $(LOCAL_PATH)/cmhw
+BOARD_HARDWARE_CLASS += $(LOCAL_PATH)/cmhw
 
 # Crypto
 TARGET_HW_DISK_ENCRYPTION := true
@@ -95,6 +90,9 @@ EXTENDED_FONT_FOOTPRINT := true
 #TARGET_GPS_HAL_PATH := $(LOCAL_PATH)/gps
 #TARGET_NO_RPC := true
 
+#ART
+WITH_DEXPREOPT := true
+
 # Init
 TARGET_INIT_VENDOR_LIB := libinit_msm
 TARGET_LIBINIT_DEFINES_FILE := $(LOCAL_PATH)/init/init_gprimeltecan.cpp
@@ -110,12 +108,12 @@ BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_KERNEL_TAGS_OFFSET := 0x01E00000
 BOARD_RAMDISK_OFFSET     := 0x02000000
-#BOARD_SECOND_OFFSET := 0x00F00000
-TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/kernel
-#TARGET_KERNEL_CONFIG := msm8916_sec_defconfig
-#TARGET_KERNEL_VARIANT_CONFIG := msm8916_sec_fortuna_eur_defconfig
-#TARGET_KERNEL_SELINUX_CONFIG := selinux_defconfig
-#TARGET_KERNEL_SOURCE := kernel/samsung/fortuna
+TARGET_KERNEL_CONFIG := msm8916_sec_defconfig
+TARGET_KERNEL_VARIANT_CONFIG := msm8916_sec_fortuna_can_defconfig
+TARGET_KERNEL_SELINUX_CONFIG := selinux_defconfig
+TARGET_KERNEL_SELINUX_LOG_CONFIG := selinux_log_defconfig
+TARGET_KERNEL_SOURCE := kernel/samsung/gprimeltecan
+#TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/kernel
 
 # Lights
 TARGET_PROVIDES_LIBLIGHT := false
@@ -123,7 +121,6 @@ TARGET_PROVIDES_LIBLIGHT := false
 # malloc implementation
 MALLOC_IMPL := dlmalloc
 
-# Partitions
 # Partition sizes
 TARGET_USERIMAGES_USE_EXT4          := true
 BOARD_BOOTIMAGE_PARTITION_SIZE      := 13631488
@@ -134,7 +131,6 @@ BOARD_CACHEIMAGE_PARTITION_SIZE     := 314572800
 BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE   := ext4
 BOARD_PERSISTIMAGE_PARTITION_SIZE   := 8388608
 BOARD_PERSISTIMAGE_FILE_SYSTEM_TYPE := ext4
-# (5731495936 - 16384)
 BOARD_USERDATAIMAGE_PARTITION_SIZE  := 4942966784
 BOARD_FLASH_BLOCK_SIZE              := 131072
 
@@ -160,6 +156,7 @@ BOARD_PROVIDES_LIBRIL := false
 
 # SELinux
 include device/qcom/sepolicy/sepolicy.mk
+include vendor/omni/sepolicy/sepolicy.mk
 
 BOARD_SEPOLICY_DIRS += \
     device/samsung/gprimeltecan/sepolicy
@@ -228,7 +225,6 @@ ifeq ($(TW),)
 	TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery.fstab
 else
 	TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery/twrp.fstab
-#	TARGET_CPU_VARIANT := cortex-a7
 endif
 
 # Vold
@@ -237,6 +233,7 @@ BOARD_VOLD_MAX_PARTITIONS := 67
 TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/msm_hsusb/gadget/lun%d/file
 
 # Wifi
+WLAN_CHIPSET := pronto
 BOARD_HAS_QCOM_WLAN := true
 BOARD_HAS_QCOM_WLAN_SDK := true
 BOARD_HAVE_SAMSUNG_WIFI := true
@@ -255,3 +252,14 @@ WIFI_DRIVER_MODULE_NAME := "wlan"
 
 # inherit from the proprietary version
 -include vendor/samsung/gprimeltecan/BoardConfigVendor.mk
+
+#make, move, symlink and strip the wlan kernel module.
+KERNEL_EXTERNAL_MODULES:
+	make -C device/samsung/gprimeltecan/wlan/prima/ WLAN_ROOT=$(ANDROID_BUILD_TOP)/device/samsung/gprimeltecan/wlan/prima/ \
+		KERNEL_SOURCE=$(KERNEL_OUT) ARCH="arm" CROSS_COMPILE="arm-eabi-"
+	mkdir $(KERNEL_MODULES_OUT)/$(WLAN_CHIPSET)/ -p
+	ln -sf /system/lib/modules/$(WLAN_CHIPSET)/$(WLAN_CHIPSET)_wlan.ko $(TARGET_OUT)/lib/modules/wlan.ko
+	mv device/samsung/gprimeltecan/wlan/prima/wlan.ko $(KERNEL_MODULES_OUT)/$(WLAN_CHIPSET)/$(WLAN_CHIPSET)_wlan.ko
+	arm-eabi-strip --strip-debug $(KERNEL_MODULES_OUT)/$(WLAN_CHIPSET)/$(WLAN_CHIPSET)_wlan.ko
+
+TARGET_KERNEL_MODULES := KERNEL_EXTERNAL_MODULES

@@ -13,14 +13,8 @@ include $(LOCAL_PATH)/keylayout/Layouts.mk
 # Common overlay
 DEVICE_PACKAGE_OVERLAYS += device/samsung/gprimeltecan/overlay
 
-ifeq ($(TARGET_PREBUILT_KERNEL),)
-	LOCAL_KERNEL := device/samsung/gprimeltecan/kernel
-else
-	LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
-endif
-
 PRODUCT_COPY_FILES += \
-    $(LOCAL_KERNEL):kernel
+    $(LOCAL_PATH)/dt.img:dt.img
 
 #Android EGL implementation
 PRODUCT_PACKAGES += libGLES_android
@@ -65,6 +59,13 @@ PRODUCT_PACKAGES += \
     ims-common \
     voip-common
 
+# Configuration
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/Diag.cfg:system/etc/Diag.cfg \
+    $(LOCAL_PATH)/configs/Diag_audio.cfg:system/etc/Diag_audio.cfg \
+    $(LOCAL_PATH)/configs/Diag_volte.cfg:system/etc/Diag_volte.cfg \
+    $(LOCAL_PATH)/configs/Diag_zero.cfg:system/etc/Diag_zero.cfg
+    
 # Audio configuration
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/Bluetooth_cal.acdb:system/etc/Bluetooth_cal.acdb \
@@ -79,9 +80,9 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/mixer_paths.xml:system/etc/mixer_paths.xml
 
 # Boot jars
-PRODUCT_BOOT_JARS += \
-    qcom.fmradio \
-    tcmiface
+#PRODUCT_BOOT_JARS += \
+#    qcom.fmradio \
+#    tcmiface
     
 #    qcmediaplayer   
 #    oem-services \
@@ -125,6 +126,7 @@ PRODUCT_PACKAGES += \
     init.carrier.rc \
     init.class_main.sh \
     init.mdm.sh \
+    init.qcom.audio.sh \
     init.qcom.bms.sh \
     init.qcom.class_core.sh \
     init.qcom.early_boot.sh \
@@ -140,6 +142,16 @@ PRODUCT_PACKAGES += \
     init.rilchip.rc \
     init.rilcommon.rc \
     twrp.fstab
+
+#IMS SERVICE
+#PRODUCT_COPY_FILES += \
+#	$(LOCAL_PATH)/ims/framework/imsmanager-common.jar:system/framework/imsmanager-common.jar \
+#	$(LOCAL_PATH)/ims/framework/imsmanager-internal.jar:system/framework/imsmanager-internal.jar \
+#	$(LOCAL_PATH)/ims/framework/imsmanager.jar:system/framework/imsmanager.jar \
+#	$(LOCAL_PATH)/ims/priv-app/ImsLogger+/ImsLogger+.apk:system/priv-app/ImsLogger+/ImsLogger+.apk \
+#	$(LOCAL_PATH)/ims/priv-app/imsservice/imsservice.apk:system/priv-app/imsservice/imsservice.apk \
+#	$(LOCAL_PATH)/ims/imscm.xml:system/etc/permissions/imscm.xml \
+#	$(LOCAL_PATH)/ims/imsmanager_library.xml:system/etc/permissions/imsmanager_library.xml
 
 # Keylayout
 PRODUCT_COPY_FILES += \
@@ -182,8 +194,8 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     ro.secure=0 \
     ro.adb.secure=0 \
     ro.debuggable=1 \
-    persist.service.adb.enable=1
-#    ro.telephony.ril_class=SamsungRIL
+    persist.service.adb.enable=1 \
+    ro.telephony.ril_class=SamsungQcomRIL
 
 # GPS
 #PRODUCT_PACKAGES += \
@@ -295,7 +307,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.gps.agps_provider=1 \
     ro.pip.gated=0 \
     ro.product.model=SM-G530W \
-    ro.product.device=gprimeltecan
+    ro.product.device=gprimeltecan \
+    cm.updater.uri=http://grandprime.ddns.net/api \
+    ro.telephony.ril_class=SamsungQcomRIL
 
 # Ril
 PRODUCT_PACKAGES += \
@@ -332,7 +346,8 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wifi/WCNSS_cfg.dat:system/etc/firmware/wlan/prima/WCNSS_cfg.dat \
     $(LOCAL_PATH)/wifi/WCNSS_qcom_cfg.ini:system/etc/firmware/wlan/prima/WCNSS_qcom_cfg.ini \
     $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin
-    
+
+#WLAN
 PRODUCT_PACKAGES += \
     hostapd \
     hostapd_cli \

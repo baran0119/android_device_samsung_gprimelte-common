@@ -13,8 +13,8 @@ import /init.sec_debug.rc
 import /init.carrier.rc
 import /init.rilcommon.rc
 import /init.container.rc
-# Include CM's extra init file
-import /init.cm.rc
+# Include omni's extra init file
+import /init.local.rc
 
 
 on early-init
