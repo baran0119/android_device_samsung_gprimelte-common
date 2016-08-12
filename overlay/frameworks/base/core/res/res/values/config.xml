@@ -96,8 +96,6 @@
          The user is forbidden from setting the brightness below this level. -->
     <integer name="config_screenBrightnessSettingMinimum">5</integer>
 
-    <bool name="always_popup_usb_computer_connection_option">false</bool>
-
     <!-- Set this true only if the device has separate attention and notification lights. -->
     <bool name="config_useAttentionLight">false</bool>
     
@@ -127,9 +125,6 @@
 
     <!-- Flag specifying whether VoLTE TTY is supported -->
     <bool name="config_carrier_volte_tty_supported">true</bool>
-
-    <!-- bool value to for enabling motion accelerometer -->
-    <bool name="use_motion_accel">true</bool>
     
     <!-- default device has recents property -->
     <bool name="config_hasRecents">true</bool>
@@ -334,7 +329,7 @@
             64 - Volume rocker
          For example, a device with Home, Back and Menu keys would set this
          config to 7. -->
-    <integer name="config_deviceHardwareWakeKeys">1</integer>
+    <add-resource name="config_deviceHardwareWakeKeys" type="integer">1</add-resource>
 
     <!-- Control the behavior when the user long presses the home button.
             0 - Nothing
@@ -359,19 +354,6 @@
          policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
     -->
     <integer name="config_doubleTapOnHomeBehavior">4</integer>
-
-    <!-- Control the behavior when the user long presses the app switch button.
-            0 - Nothing
-            1 - Menu key
-            2 - Recent apps view in SystemUI
-            3 - Launch assist intent
-            4 - Voice Search
-            5 - In-app Search
-         This needs to match the constants in
-         policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
-
-    -->
-<integer name="config_longPressOnAppSwitchBehavior">2</integer>
 
 </resources>
 
