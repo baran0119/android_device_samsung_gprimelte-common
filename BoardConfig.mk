@@ -44,6 +44,10 @@ BLUETOOTH_HCI_USE_MCT := true
 BOARD_RIL_CLASS    := ../../../device/samsung/gprimeltecan/ril
 PROTOBUF_SUPPORTED := true
 
+#QCOM
+TARGET_QCOM_MEDIA_VARIANT := caf
+TARGET_QCOM_DISPLAY_VARIANT := caf
+
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := MSM8916
 
@@ -63,6 +67,7 @@ BOARD_HARDWARE_CLASS += $(LOCAL_PATH)/cmhw
 
 # Crypto
 TARGET_HW_DISK_ENCRYPTION := true
+CONFIG_HW_DISK_ENCRYPTION := true
 
 # default.prop
 ADDITIONAL_DEFAULT_PROPERTIES += \
@@ -156,7 +161,6 @@ BOARD_PROVIDES_LIBRIL := false
 
 # SELinux
 include device/qcom/sepolicy/sepolicy.mk
-include vendor/omni/sepolicy/sepolicy.mk
 
 BOARD_SEPOLICY_DIRS += \
     device/samsung/gprimeltecan/sepolicy
