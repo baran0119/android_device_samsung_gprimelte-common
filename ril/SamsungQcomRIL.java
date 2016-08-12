@@ -243,9 +243,9 @@ public class SamsungQcomRIL extends RIL {
 
         return new SignalStrength(gsmSignalStrength, gsmBitErrorRate, cdmaDbm, cdmaEcio, evdoDbm,
                 evdoEcio, evdoSnr, lteSignalStrength, lteRsrp, lteRsrq, lteRssnr, lteCqi,
-                tdScdmaRscp, isGsm);
+                isGsm);
     }
-
+    
     @Override
     protected void
     processUnsolicited (Parcel p) {
