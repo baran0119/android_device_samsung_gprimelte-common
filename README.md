@@ -1,4 +1,4 @@
-# android_device_samsung_gprimeltecan
+# android_device_samsung_gprimeltetmo
 
 ## Device tree for Samsung Galaxy Grand Prime G530W [grimeltecan]
 
