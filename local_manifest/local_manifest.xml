@@ -22,9 +22,9 @@
   <project path="vendor/samsung/gprimeltecan" name="vince2678/android_vendor_samsung_gprimeltecan" remote="github" revision="android-5.1"/>
   <project path="kernel/samsung/grandprime" name="vince2678/android_kernel_samsung_grandprime" remote="github" revision="cm-12.1"/>
 =======
-  <project path="device/samsung/gprimeltetmo" name="vince2678/android_device_samsung_gprimeltetmo" groups="device" remote="github" revision="cm-12.1"/>
+  <project path="device/samsung/gprimeltecan" name="vince2678/android_device_samsung_gprimeltecan" groups="device" remote="github" revision="cm-12.1"/>
   <project path="device/qcom-common" name="vince2678/android_device_qcom-common" remote="github" revision="cm-12.1"/>
-  <project path="vendor/samsung/gprimeltetmo" name="vince2678/android_vendor_samsung_gprimeltetmo" remote="github" revision="cm-12.1"/>
+  <project path="vendor/samsung/gprimeltecan" name="vince2678/android_vendor_samsung_gprimeltecan" remote="github" revision="cm-12.1"/>
 >>>>>>> 85c65c2f08ed853b362004d759048feea9b6a635
   <project path="device/samsung/qcom-common" name="android_device_samsung_qcom-common" remote="omnirom" revision="android-5.1" groups="device" />
 
