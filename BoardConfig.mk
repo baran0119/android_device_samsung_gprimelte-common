@@ -117,8 +117,7 @@ TARGET_KERNEL_CONFIG := msm8916_sec_defconfig
 TARGET_KERNEL_VARIANT_CONFIG := msm8916_sec_fortuna_can_defconfig
 TARGET_KERNEL_SELINUX_CONFIG := selinux_defconfig
 TARGET_KERNEL_SELINUX_LOG_CONFIG := selinux_log_defconfig
-TARGET_KERNEL_SOURCE := kernel/samsung/gprimeltecan
-#TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/kernel
+TARGET_KERNEL_SOURCE := kernel/samsung/grandprime
 
 # Lights
 TARGET_PROVIDES_LIBLIGHT := false
