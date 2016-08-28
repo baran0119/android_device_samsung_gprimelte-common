@@ -14,7 +14,6 @@ include $(LOCAL_PATH)/keylayout/Layouts.mk
 DEVICE_PACKAGE_OVERLAYS += device/samsung/gprimeltecan/overlay
 
 PRODUCT_COPY_FILES += \
-	$(LOCAL_PATH)/kernel:kernel \
     $(LOCAL_PATH)/dt.img:dt.img
 
 #Android EGL implementation
