@@ -23,7 +23,7 @@ TARGET_BOARD_PLATFORM_GPU       := qcom-adreno306
 
 # Architecture
 TARGET_CPU_SMP := true
-TARGET_CPU_VARIANT := cortex-a53
+TARGET_CPU_VARIANT := cortex-a15
 TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
 TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
 
