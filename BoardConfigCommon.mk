@@ -1,5 +1,5 @@
 FORCE_32_BIT := true
-
+BOARD_VENDOR := samsung
 LOCAL_PATH := device/samsung/gprimelte-common
 
 # Inherit from common
@@ -7,22 +7,11 @@ LOCAL_PATH := device/samsung/gprimelte-common
 
 TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
 
-# Releasetools
-#TARGET_RELEASETOOLS_EXTENSIONS                  := $(LOCAL_PATH)
-
 # ANT+
 BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
 
-# Platform
-TARGET_ARCH := arm
-TARGET_BOARD_PLATFORM := msm8916
-TARGET_CPU_ABI := armeabi-v7a
-TARGET_CPU_ABI2 := armeabi
-TARGET_ARCH_VARIANT := armv7-a-neon
-TARGET_BOARD_PLATFORM_GPU       := qcom-adreno306
-#ARCH_ARM_HAVE_TLS_REGISTER := true
-
 # Architecture
+TARGET_CPU_CORTEX_A53 := true
 TARGET_CPU_SMP := true
 TARGET_CPU_VARIANT := cortex-a53
 TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
@@ -33,36 +22,28 @@ AUDIO_FEATURE_LOW_LATENCY_PRIMARY := true
 BOARD_USES_ALSA_AUDIO := true
 
 # Bluetooth
+BLUETOOTH_HCI_USE_MCT := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_QCOM := true
-BLUETOOTH_HCI_USE_MCT := true
-
-# Custom RIL class
-BOARD_RIL_CLASS    := ../../../device/samsung/gprimelte-common/ril
-PROTOBUF_SUPPORTED := true
 
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := MSM8916
 
 # Camera
-TARGET_USE_VENDOR_CAMERA_EXT := true
 TARGET_PROVIDES_CAMERA_HAL := true
+TARGET_USE_VENDOR_CAMERA_EXT := true
 USE_DEVICE_SPECIFIC_CAMERA := true
 
 # Charger
-BOARD_CHARGER_ENABLE_SUSPEND    := true
-BOARD_CHARGER_SHOW_PERCENTAGE   := true
+BOARD_CHARGER_ENABLE_SUSPEND := true
+BOARD_CHARGER_SHOW_PERCENTAGE := true
 BOARD_CHARGING_MODE_BOOTING_LPM := /sys/class/power_supply/battery/batt_lp_charging
-CHARGING_ENABLED_PATH           := /sys/class/power_supply/battery/batt_lp_charging
-
-# Enable QCOM FM feature
-AUDIO_FEATURE_ENABLED_FM := true
-BOARD_HAVE_QCOM_FM := true
+CHARGING_ENABLED_PATH := /sys/class/power_supply/battery/batt_lp_charging
 
 # CMHW
-BOARD_USES_CYANOGEN_HARDWARE := true
 BOARD_HARDWARE_CLASS +=	$(LOCAL_PATH)/cmhw
+BOARD_USES_CYANOGEN_HARDWARE := true
 
 # Crypto
 TARGET_HW_DISK_ENCRYPTION := true
@@ -70,6 +51,16 @@ TARGET_HW_DISK_ENCRYPTION := true
 # default.prop
 ADDITIONAL_DEFAULT_PROPERTIES += \
 	camera2.portability.force_api=1
+
+# Dex/ART
+ifeq ($(HOST_OS),linux)
+  ifneq ($(TARGET_BUILD_VARIANT),eng)
+    ifeq ($(WITH_DEXPREOPT),)
+      WITH_DEXPREOPT := true
+    endif
+  endif
+endif
+#WITH_DEXPREOPT_BOOT_IMG_ONLY ?= true
 
 # Display
 MAX_EGL_CACHE_KEY_SIZE := 12*1024
@@ -84,34 +75,20 @@ TARGET_SWV8_DISK_ENCRYPTION := true
 
 # FM
 AUDIO_FEATURE_ENABLED_FM := true
+BOARD_HAVE_QCOM_FM := true
 TARGET_QCOM_NO_FM_FIRMWARE := true
 
 # Fonts
 EXTENDED_FONT_FOOTPRINT := true
 
-# GPS
-#BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := msm8916
-#TARGET_NO_RPC := true
-
 # Healthd
 BOARD_HAL_STATIC_LIBRARIES := libhealthd.qcom
-
-#ART
-# Dex
-ifeq ($(HOST_OS),linux)
-  ifneq ($(TARGET_BUILD_VARIANT),eng)
-    ifeq ($(WITH_DEXPREOPT),)
-      WITH_DEXPREOPT := true
-    endif
-  endif
-endif
-WITH_DEXPREOPT_BOOT_IMG_ONLY ?= true
 
 # Init
 TARGET_INIT_VENDOR_LIB := libinit_msm
 TARGET_PLATFORM_DEVICE_BASE := /devices/soc.0/
-TARGET_UNIFIED_DEVICE := true
 TARGET_PROVIDES_INIT_RC := true
+TARGET_UNIFIED_DEVICE := true
 
 # Kernel
 BOARD_CUSTOM_BOOTIMG_MK := $(LOCAL_PATH)/mkbootimg.mk
@@ -132,24 +109,26 @@ TARGET_PROVIDES_LIBLIGHT := false
 # malloc implementation
 MALLOC_IMPL := dlmalloc
 
+# Media
+TARGET_QCOM_MEDIA_VARIANT := caf
+TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
+
 # Partition sizes
-TARGET_USERIMAGES_USE_EXT4          := true
-BOARD_BOOTIMAGE_PARTITION_SIZE      := 13631488
-BOARD_RECOVERYIMAGE_PARTITION_SIZE  := 15728640
-BOARD_CACHEIMAGE_PARTITION_SIZE     := 314572800
-BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE   := ext4
-BOARD_FLASH_BLOCK_SIZE              := 131072
-#i think this should be 4096
-#blockdev --getbsz /dev/block/mmcblk0p9
+BOARD_BOOTIMAGE_PARTITION_SIZE := 13631488
+BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_CACHEIMAGE_PARTITION_SIZE := 314572800
+BOARD_FLASH_BLOCK_SIZE := 131072
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 15728640
+TARGET_USERIMAGES_USE_EXT4 := true
+
+# Platform
+TARGET_BOARD_PLATFORM := msm8916
+TARGET_BOARD_PLATFORM_GPU := qcom-adreno306
 
 # Power
 TARGET_POWERHAL_VARIANT := qcom
 CM_POWERHAL_EXTENSION := qcom
 WITH_QC_PERF := true
-
-# Media
-TARGET_QCOM_MEDIA_VARIANT           := caf
-TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
 
 # Qualcomm support
 TARGET_USES_QCOM_BSP := true
@@ -157,9 +136,6 @@ COMMON_GLOBAL_CFLAGS += -DQCOM_HARDWARE -DQCOM_BSP
 HAVE_SYNAPTICS_I2C_RMI4_FW_UPGRADE   := true
 USE_DEVICE_SPECIFIC_QCOM_PROPRIETARY := true
 TARGET_USES_NEW_ION_API := true
-
-#Includes
-TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
 
 # Recovery
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
@@ -170,62 +146,61 @@ TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := false
 
 # RIL
+BOARD_RIL_CLASS := ../../../device/samsung/gprimelte-common/ril
 TARGET_RIL_VARIANT := caf
 #override to enable audio.
 BOARD_PROVIDES_LIBRIL := false
 
 # SELinux
 include device/qcom/sepolicy/sepolicy.mk
+include vendor/cm/sepolicy/qcom/sepolicy.mk
 include vendor/cm/sepolicy/sepolicy.mk
 include vendor/samsung/common/sepolicy/sepolicy.mk
-include vendor/cm/sepolicy/qcom/sepolicy.mk
 
 BOARD_SEPOLICY_DIRS += \
-    device/samsung/gprimelte-common/sepolicy
+	device/samsung/gprimelte-common/sepolicy
 
 BOARD_SEPOLICY_UNION += \
 	audiod.te \
-	ueventd.te \
-	file.te \
-	shell.te \
-	surfaceflinger.te \
 	bluetooth.te \
 	bluetooth_loader.te \
-	wcnss_service.te \
+	file.te \
+	file_contexts \
 	healthd.te \
+	init.te \
+	init_shell.te \
 	kernel.te \
+	keystore.te \
+	lkmd.te \
+	mediaserver.te \
+	mm-qcamerad.te \
+	perfd.te \
 	property.te \
-	rild.te \
+	property_contexts \
+	qmuxd.te \
 	qseecomd.te \
+	rfs_access.te \
+	rild.te \
+	rmt_storage.te \
+	shell.te \
+	surfaceflinger.te \
+	sysinit.te \
 	system_server.te \
 	time_daemon.te \
-	sysinit.te \
-	mm-qcamerad.te \
-	file_contexts \
-	init_shell.te \
-	init.te \
-	lkmd.te \
-	qmuxd.te \
-	rfs_access.te \
-	rmt_storage.te \
-	keystore.te \
-	perfd.te \
-	mediaserver.te \
+	ueventd.te \
 	vold.te \
-	property_contexts
+	wcnss_service.te
 
 # Time services
 BOARD_USES_QC_TIME_SERVICES := true
 
 # TWRP
-#RECOVERY_VARIANT := twrp
 BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_SUPPRESS_SECURE_ERASE := true
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
 RECOVERY_SDCARD_ON_DATA := true
 TW_BRIGHTNESS_PATH := "/sys/class/leds/lcd-backlight/brightness"
-TW_MAX_BRIGHTNESS := 255
 TW_HAS_DOWNLOAD_MODE := true
 TW_HAS_MTP := true
 TW_INCLUDE_CRYPTO := true
@@ -239,9 +214,11 @@ TW_NO_USB_STORAGE := true
 TW_TARGET_USES_QCOM_BSP := true
 TW_THEME := portrait_hdpi
 ifeq ($(TW),)
-	TARGET_RECOVERY_FSTAB := device/samsung/gprimelte-common/recovery.fstab
+	TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery.fstab
 else
-	TARGET_RECOVERY_FSTAB := device/samsung/gprimelte-common/recovery/twrp.fstab
+	RECOVERY_VARIANT := twrp
+	TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery/twrp.fstab
+	TARGET_CPU_VARIANT := cortex-a7
 endif
 
 # Vold

@@ -7,9 +7,6 @@ include $(LOCAL_PATH)/keylayout/Layouts.mk
 
 LOCAL_PATH := device/samsung/gprimelte-common
 
-# Common overlay
-DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
-
 #Android EGL implementation
 PRODUCT_PACKAGES += libGLES_android
 
@@ -21,20 +18,6 @@ PRODUCT_PACKAGES += \
 	antradio_app \
 	com.dsi.ant.antradio_library \
 	libantradio
-
-#NFC
-PRODUCT_PACKAGES += \
-	Tag \
-	com.android.nfc_extras \
-	com.android.nfc.helper \
-#	NfcNci
-
-#JARS
-PRODUCT_PACKAGES += \
-	com.google.widevine.software.drm
-#	com.gsma.services.nfc \
-#	org.simalliance.openmobileapi \
-#	com.broadcom.bt
 
 # Audio
 PRODUCT_PACKAGES += \
@@ -55,45 +38,35 @@ PRODUCT_PACKAGES += \
 	libFLAC \
 	tinypcminfo
 
-#VoLTE calling support
-PRODUCT_PACKAGES += \
-	com.android.ims \
-	com.android.ims.internal \
-	ims-common \
-	voip-common
-
 # Boot jars
 PRODUCT_BOOT_JARS += \
 	qcmediaplayer
 
-#	qcom.fmradio \
-#	tcmiface \
-#	oem-services \
+# Camera
+PRODUCT_PACKAGES += \
+	libmm-qcamera \
+	camera.msm8916
 
 # Connectivity Engine support
 PRODUCT_PACKAGES += \
 	libcnefeatureconfig
 
-#Location, WiDi
-PRODUCT_PACKAGES += \
-	com.android.location.provider \
-	com.android.location.provider.xml \
-	com.android.media.remotedisplay \
-	com.android.media.remotedisplay.xml
+# Default Property Overrides
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+	persist.sys.usb.config=mtp \
+	telephony.lteOnCdmaDevice=0 \
+	persist.eons.enabled=true \
+	persist.radio.apm_sim_not_pwdn=1 \
+	rild.libpath=/system/lib/libsec-ril.so \
+	persist.cne.feature=0 \
+	persist.radio.lte_vrte_ltd=1 \
+	persist.radio.add_power_save=1 \
+	camera2.portability.force_api=1 \
+	ro.secure=0 \
+	ro.adb.secure=0 \
+	ro.debuggable=1 \
+	persist.service.adb.enable=1
 
-#Camera
-PRODUCT_PACKAGES += \
-	libmm-qcamera \
-	camera.msm8916
-	
-# Doze
-PRODUCT_PACKAGES += \
-	SamsungDoze
-	
-# Touch issue workaround
-PRODUCT_PACKAGES += \
-	InputDisabler
-	
 # Display
 PRODUCT_PACKAGES += \
 	copybit.msm8916 \
@@ -102,24 +75,23 @@ PRODUCT_PACKAGES += \
 	libtinyxml \
 	memtrack.msm8916
 
+# Doze
+PRODUCT_PACKAGES += \
+	SamsungDoze
+
 # Ebtables
 PRODUCT_PACKAGES += \
 	ebtables \
 	ethertypes \
 	libebtc
 
-# FM
-#PRODUCT_PACKAGES += \
-#	FM2 \
-#	FMRecord \
-#	libqcomfm_jni \
-#	qcom.fmradio
+# GPS Configurations
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/gps/flp.conf:system/etc/flp.conf \
+	$(LOCAL_PATH)/gps/gps.conf:system/etc/gps.conf \
+	$(LOCAL_PATH)/gps/izat.conf:system/etc/izat.conf \
+	$(LOCAL_PATH)/gps/sap.conf:system/etc/sap.conf
 
-#ViperFX
-PRODUCT_PACKAGES += \
-	libv4a_fx_ics \
-	ViperFX
-	
 # INIT
 PRODUCT_PACKAGES += \
 	fstab.qcom \
@@ -147,14 +119,21 @@ PRODUCT_PACKAGES += \
 	init.rilcommon.rc \
 	twrp.fstab
 
+# JARS
+PRODUCT_PACKAGES += \
+	com.google.widevine.software.drm
+#	com.gsma.services.nfc \
+#	org.simalliance.openmobileapi \
+#	com.broadcom.bt
+
 # Keylayout
 PRODUCT_COPY_FILES += \
-	$(LOCAL_PATH)/keylayout/Synaptics_RMI4_TouchPad_Sensor.idc:system/usr/idc/Synaptics_RMI4_TouchPad_Sensor.idc \
-	$(LOCAL_PATH)/keylayout/Synaptics_HID_TouchPad.idc:system/usr/idc/Synaptics_HID_TouchPad.idc \
-	$(LOCAL_PATH)/keylayout/ft5x06_ts.kl:system/usr/keylayout/ft5x06_ts.kl \
-	$(LOCAL_PATH)/keylayout/synaptics_dsx.kl:system/usr/keylayout/synaptics_dsx.kl \
-	$(LOCAL_PATH)/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
 	$(LOCAL_PATH)/keylayout/Generic.kl:system/usr/keylayout/Generic.kl \
+	$(LOCAL_PATH)/keylayout/Synaptics_HID_TouchPad.idc:system/usr/idc/Synaptics_HID_TouchPad.idc \
+	$(LOCAL_PATH)/keylayout/Synaptics_RMI4_TouchPad_Sensor.idc:system/usr/idc/Synaptics_RMI4_TouchPad_Sensor.idc \
+	$(LOCAL_PATH)/keylayout/ft5x06_ts.kl:system/usr/keylayout/ft5x06_ts.kl \
+	$(LOCAL_PATH)/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
+	$(LOCAL_PATH)/keylayout/synaptics_dsx.kl:system/usr/keylayout/synaptics_dsx.kl \
 	$(LOCAL_PATH)/keylayout/synaptics_rmi4_i2c.kl:system/usr/keylayout/synaptics_rmi4_i2c.kl
 
 # Keystore
@@ -172,42 +151,17 @@ PRODUCT_PACKAGES += \
 
 # Live Wallpapers
 PRODUCT_PACKAGES += \
+	LiveWallpapers \
+	LiveWallpapersPicker \
+	VisualizationWallpapers \
 	librs_jni
 
-# Default Property Overrides
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-	persist.sys.usb.config=mtp \
-	telephony.lteOnCdmaDevice=0 \
-	persist.eons.enabled=true \
-	persist.radio.apm_sim_not_pwdn=1 \
-	rild.libpath=/system/lib/libsec-ril.so \
-	persist.cne.feature=0 \
-	persist.radio.lte_vrte_ltd=1 \
-	persist.radio.add_power_save=1 \
-	camera2.portability.force_api=1 \
-	ro.secure=0 \
-	ro.adb.secure=0 \
-	ro.debuggable=1 \
-	persist.service.adb.enable=1
-
-# GPS
-#PRODUCT_PACKAGES += \
-#	gps.default \
-#	libloc_core \
-#	libgps.utils \
-#	libloc_eng \
-#	libloc_api_v02
-
-#Sensors
+# Location, WiDi
 PRODUCT_PACKAGES += \
-	sensors.default
-
-#GPS Configurations
-PRODUCT_COPY_FILES += \
-	$(LOCAL_PATH)/gps/flp.conf:system/etc/flp.conf \
-	$(LOCAL_PATH)/gps/gps.conf:system/etc/gps.conf \
-	$(LOCAL_PATH)/gps/izat.conf:system/etc/izat.conf \
-	$(LOCAL_PATH)/gps/sap.conf:system/etc/sap.conf
+	com.android.location.provider \
+	com.android.location.provider.xml \
+	com.android.media.remotedisplay \
+	com.android.media.remotedisplay.xml
 
 # macloader
 PRODUCT_PACKAGES += macloader
@@ -216,7 +170,7 @@ PRODUCT_PACKAGES += macloader
 PRODUCT_COPY_FILES += \
 	frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
 	frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
-	frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml \
+	frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml
 
 # MSM IRQ Balancer configuration file
 PRODUCT_COPY_FILES += \
@@ -233,6 +187,13 @@ PRODUCT_PACKAGES += \
 	libjpega \
 	libexifa \
 	charon
+
+# NFC
+PRODUCT_PACKAGES += \
+	Tag \
+	com.android.nfc_extras \
+	com.android.nfc.helper \
+#	NfcNci
 
 # OMX
 PRODUCT_PACKAGES += \
@@ -252,6 +213,9 @@ PRODUCT_PACKAGES += \
 	libOmxVdpp \
 	libstagefrighthw \
 	qcmediaplayer
+
+# Overlay
+DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -307,6 +271,14 @@ PRODUCT_PACKAGES += \
 PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
+# Sensors
+PRODUCT_PACKAGES += \
+	sensors.default
+
+# Touch issue workaround
+PRODUCT_PACKAGES += \
+	InputDisabler
+
 # Terminal
 PRODUCT_PACKAGES += Terminal
 
@@ -314,12 +286,17 @@ PRODUCT_PACKAGES += Terminal
 PRODUCT_PACKAGES += \
 	com.android.future.usb.accessory
 
-# Live Wallpapers
+# ViperFX
 PRODUCT_PACKAGES += \
-	LiveWallpapers \
-	LiveWallpapersPicker \
-	VisualizationWallpapers \
-	librs_jni
+	libv4a_fx_ics \
+	ViperFX
+
+# VoLTE calling support
+PRODUCT_PACKAGES += \
+	com.android.ims \
+	com.android.ims.internal \
+	ims-common \
+	voip-common
 
 # Wifi configuration files
 PRODUCT_COPY_FILES += \
