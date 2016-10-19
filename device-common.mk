@@ -122,9 +122,6 @@ PRODUCT_PACKAGES += \
 # JARS
 PRODUCT_PACKAGES += \
 	com.google.widevine.software.drm
-#	com.gsma.services.nfc \
-#	org.simalliance.openmobileapi \
-#	com.broadcom.bt
 
 # Keylayout
 PRODUCT_COPY_FILES += \
@@ -148,13 +145,6 @@ PRODUCT_PACKAGES += \
 # Lights
 PRODUCT_PACKAGES += \
 	lights.msm8916
-
-# Live Wallpapers
-PRODUCT_PACKAGES += \
-	LiveWallpapers \
-	LiveWallpapersPicker \
-	VisualizationWallpapers \
-	librs_jni
 
 # Location, WiDi
 PRODUCT_PACKAGES += \
@@ -192,8 +182,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	Tag \
 	com.android.nfc_extras \
-	com.android.nfc.helper \
-#	NfcNci
+	com.android.nfc.helper
 
 # OMX
 PRODUCT_PACKAGES += \
@@ -271,10 +260,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
-# Sensors
-PRODUCT_PACKAGES += \
-	sensors.default
-
 # Touch issue workaround
 PRODUCT_PACKAGES += \
 	InputDisabler
@@ -288,7 +273,7 @@ PRODUCT_PACKAGES += \
 
 # ViperFX
 PRODUCT_PACKAGES += \
-	libv4a_fx_ics \
+	libv4a_fx_jb_NEON \
 	ViperFX
 
 # VoLTE calling support

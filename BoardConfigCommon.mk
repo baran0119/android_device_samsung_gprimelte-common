@@ -1,5 +1,4 @@
 FORCE_32_BIT := true
-BOARD_VENDOR := samsung
 LOCAL_PATH := device/samsung/gprimelte-common
 
 # Inherit from common
@@ -11,7 +10,6 @@ TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
 BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
 
 # Architecture
-TARGET_CPU_CORTEX_A53 := true
 TARGET_CPU_SMP := true
 TARGET_CPU_VARIANT := cortex-a53
 TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
@@ -60,7 +58,6 @@ ifeq ($(HOST_OS),linux)
     endif
   endif
 endif
-#WITH_DEXPREOPT_BOOT_IMG_ONLY ?= true
 
 # Display
 MAX_EGL_CACHE_KEY_SIZE := 12*1024
@@ -119,7 +116,6 @@ BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_CACHEIMAGE_PARTITION_SIZE := 314572800
 BOARD_FLASH_BLOCK_SIZE := 131072
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 15728640
-TARGET_USERIMAGES_USE_EXT4 := true
 
 # Platform
 TARGET_BOARD_PLATFORM := msm8916
