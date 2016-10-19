@@ -13,9 +13,9 @@ LOCAL_PRIVILEGED_MODULE := true
 include $(BUILD_PREBUILT)
 
 ######################
-##libv4a_fx_ics.so
+##libv4a_fx_jb_NEON.so.so
 include $(CLEAR_VARS)
-LOCAL_MODULE       := libv4a_fx_ics
+LOCAL_MODULE       := libv4a_fx_jb_NEON
 LOCAL_MODULE_TAGS  := optional eng
 LOCAL_MODULE_CLASS := SHARED_LIBRARIES
 LOCAL_MODULE_SUFFIX := .so
